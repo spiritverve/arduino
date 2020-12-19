@@ -1,0 +1,94 @@
+/*
+Snowman Redo 2020 v2
+Randomly light up lights, cycles through all then just white then just red
+ 
+Tony Appino
+
+*/
+//setup arrays with the different lights
+int all_leds[35] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36};
+int white_leds[26] = {2,3,4,5,6,7,8,9,10,11,12,13,14,24,25,26,27,28,29,30,31,32,33,34,35,36};
+int red_leds[9] = {15,16,17,18,19,20,21,22,23};
+
+//setup the counters
+int all_count = 1000;
+int white_count = 1000;
+int red_count = 1000;
+
+// number of total leds 
+int num_led = 35;
+
+
+void setup(){
+  //set them all to output
+  for (int jj; jj<sizeof(all_leds)/sizeof(int);jj++){
+    pinMode(all_leds[jj],OUTPUT);
+    delay(10);
+  }
+}
+
+void loop(){
+
+  while (all_count > 0){
+   digitalWrite(all_leds[random(0,sizeof(all_leds)/sizeof(int))],HIGH);
+  delay(random(50,1));
+  digitalWrite(all_leds[random(0,sizeof(all_leds)/sizeof(int))],LOW);
+  all_count = all_count -1;
+  }
+// turn the leds off
+  for (int i = 2; i <= 36; i++) {
+    digitalWrite(i, LOW);
+    delay(100);
+  }
+// just the whites
+
+ while (white_count > 0){
+   digitalWrite(white_leds[random(0,sizeof(white_leds)/sizeof(int))],HIGH);
+  delay(random(50,1));
+  digitalWrite(white_leds[random(0,sizeof(white_leds)/sizeof(int))],LOW);
+  white_count = white_count -1;
+  }
+  // turn the leds off
+ 
+  for (int i = 2; i <= 36; i++) {
+    digitalWrite(i, LOW);
+    delay(100);
+  }
+
+// just the reds
+
+ while (red_count > 0){
+   digitalWrite(red_leds[random(0,sizeof(red_leds)/sizeof(int))],HIGH);
+  delay(random(50,1));
+  digitalWrite(red_leds[random(0,sizeof(red_leds)/sizeof(int))],LOW);
+  red_count = red_count -1;
+  }
+// turn the leds off
+ 
+  for (int i = 2; i <= 36; i++) {
+    digitalWrite(i, LOW);
+    delay(100);
+  }
+
+// turn on just the reds
+
+ for (int i = 15; i <= 36; i++) {
+    digitalWrite(i, HIGH);
+    delay(10);
+ }
+ delay(10000);
+ // turn the leds off
+ 
+  for (int i = 2; i <= 36; i++) {
+    digitalWrite(i, LOW);
+    delay(100);
+  }
+
+// set the counters back     
+all_count = 1000;
+white_count = 1000;
+red_count = 1000;
+
+
+  
+}
