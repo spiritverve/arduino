@@ -1,6 +1,8 @@
 /*
-Snowman Redo 2020 v2
+Snowman Redo 2022 v3
 Randomly light up lights, cycles through all then just white then just red
+
+2022 - added test sequence
  
 Tony Appino
 
@@ -25,9 +27,17 @@ void setup(){
     pinMode(all_leds[jj],OUTPUT);
     delay(10);
   }
+// run through a test sequence
+  for (int jj; jj<sizeof(all_leds)/sizeof(int);jj++){
+    digitalWrite (all_leds[jj],HIGH);
+    delay(500);
+    digitalWrite (all_leds[jj],LOW);
+  }  
 }
 
 void loop(){
+
+
 
   while (all_count > 0){
    digitalWrite(all_leds[random(0,sizeof(all_leds)/sizeof(int))],HIGH);
