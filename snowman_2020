@@ -1,6 +1,7 @@
 /*
 Snowman Redo 2022 v3
 Randomly light up lights, cycles through all then just white then just red
+uses 3.2 - 3.4 V size 5 red and white leds
 
 2022 - added test sequence
  
