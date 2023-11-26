@@ -1,0 +1,102 @@
+// Snowman Redo 2022 v3
+// Randomly light up lights, cycles through all then just white then just red
+// uses 3.2 - 3.4 V size 5 red and white leds
+// 2022 - added test sequence
+// 2023 - changed up sequences and rewrite using chatgpt 
+// Tony Appino
+
+const int all_leds[35] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36};
+const int white_leds[26] = {2,3,4,5,6,7,8,9,10,11,12,13,14,24,25,26,27,28,29,30,31,32,33,34,35,36};
+const int red_leds[9] = {15,16,17,18,19,20,21,22,23};
+
+void setup() {
+  for (int i = 0; i < sizeof(all_leds)/sizeof(all_leds[0]); i++) {
+    pinMode(all_leds[i], OUTPUT);
+    delay(10);
+  }
+  testSequence();
+}
+
+void loop() {
+  chaseSequence(all_leds, sizeof(all_leds)/sizeof(all_leds[0]), 30000); // Chase sequence for 30 seconds
+  turnOffAllLEDs();
+
+  solidOnSequence(red_leds, sizeof(red_leds)/sizeof(red_leds[0]), 30000); // Hat on for 30 seconds
+  turnOffAllLEDs();
+
+  blinkSequence(white_leds, sizeof(white_leds)/sizeof(white_leds[0]), 30000, 500); // Body blink for 30 seconds
+  turnOffAllLEDs();
+
+  alternateBlinkSequence(red_leds, sizeof(red_leds)/sizeof(red_leds[0]), white_leds, sizeof(white_leds)/sizeof(white_leds[0]), 30000);
+  turnOffAllLEDs();
+
+  randomFlashSequence(all_leds, sizeof(all_leds)/sizeof(all_leds[0]), 30000);
+  turnOffAllLEDs();
+}
+
+void chaseSequence(const int leds[], int size, int duration) {
+  unsigned long startTime = millis();
+  while (millis() - startTime < duration) {
+    for (int i = 0; i < size; i++) {
+      digitalWrite(leds[i], HIGH);
+      delay(100);
+      digitalWrite(leds[i], LOW);
+    }
+  }
+}
+
+void solidOnSequence(const int leds[], int size, int duration) {
+  for (int i = 0; i < size; i++) {
+    digitalWrite(leds[i], HIGH);
+  }
+  delay(duration);
+}
+
+void blinkSequence(const int leds[], int size, int duration, int blinkDelay) {
+  unsigned long startTime = millis();
+  while (millis() - startTime < duration) {
+    for (int i = 0; i < size; i++) {
+      digitalWrite(leds[i], HIGH);
+    }
+    delay(blinkDelay);
+    for (int i = 0; i < size; i++) {
+      digitalWrite(leds[i], LOW);
+    }
+    delay(blinkDelay);
+  }
+}
+
+void alternateBlinkSequence(const int leds1[], int size1, const int leds2[], int size2, int duration) {
+  unsigned long startTime = millis();
+  while (millis() - startTime < duration) {
+    solidOnSequence(leds1, size1, 500);
+    turnOffAllLEDs();
+    solidOnSequence(leds2, size2, 500);
+    turnOffAllLEDs();
+  }
+}
+
+void randomFlashSequence(const int leds[], int size, int duration) {
+  unsigned long startTime = millis();
+  while (millis() - startTime < duration) {
+    int randomLED = random(0, size);
+    digitalWrite(leds[randomLED], HIGH);
+    delay(random(50, 200));
+    digitalWrite(leds[randomLED], LOW);
+  }
+}
+
+void turnOffAllLEDs() {
+  for (int i = 0; i < sizeof(all_leds)/sizeof(all_leds[0]); i++) {
+    digitalWrite(all_leds[i], LOW);
+    delay(10);
+  }
+}
+
+void testSequence() {
+  for (int i = 0; i < sizeof(all_leds)/sizeof(all_leds[0]); i++) {
+    digitalWrite(all_leds[i], HIGH);
+    delay(500);
+    digitalWrite(all_leds[i], LOW);
+  }
+}
